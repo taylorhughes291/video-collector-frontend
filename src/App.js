@@ -57,7 +57,10 @@ function App() {
       <>
         <h2>{episodes.data[0].title}</h2>
         <h3>{episodes.data[0].episodeType}</h3>
-        <p>{episodes.data[0].url}</p>
+        <video
+          src={episodes.data[0].url}
+          controls
+        />
       </>
     )
     return (
