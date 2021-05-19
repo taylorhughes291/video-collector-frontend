@@ -20,7 +20,7 @@ function App() {
     episodeType: "",
     episodeDate: ""
   })
-  const url = "http://localhost:4500"
+  const url = "https://video-collector-backend.herokuapp.com"
 
 
   /////////////////////////////
@@ -87,6 +87,7 @@ function App() {
           <EpisodeList 
             episodes={episodes}
             selectEpisode={selectEpisode}
+            selectedEpisode={selectedEpisode}
             setSelectedEpisode={setSelectedEpisode}
             url={url}
             getEpisodes={getEpisodes}
