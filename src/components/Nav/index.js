@@ -31,7 +31,6 @@ const Nav = () => {
                     >
                         <li>See Episode List</li>
                     </Link>
-                    <li>Add a New Episode</li>
                 </ul>
             </nav>
         </>

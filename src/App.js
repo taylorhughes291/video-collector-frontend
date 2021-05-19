@@ -2,6 +2,8 @@ import './App.css';
 import Nav from "./components/Nav"
 import {Switch, Route} from "react-router-dom"
 import {useState, useEffect} from "react"
+import EpisodeList from "./pages/EpisodeList"
+import Episode from "./pages/Episode"
 
 function App() {
   /////////////////////////////
@@ -10,6 +12,13 @@ function App() {
   const [episodes, setEpisodes] = useState({
     status: 0,
     data: []
+  })
+  const [selectedEpisode, setSelectedEpisode] = useState({
+    _id: "",
+    title: "",
+    url: "",
+    episodeType: "",
+    episodeDate: ""
   })
   const url = "http://localhost:4500"
 
@@ -23,6 +32,15 @@ function App() {
     .then((data) => {
       setEpisodes(data)
     })
+  }
+
+  const selectEpisode = (id) => {
+    const episodeData = episodes.data.find((item, index) => {
+      return (
+        item._id === id
+      )
+    })
+    setSelectedEpisode(episodeData)
   }
   
 
@@ -66,7 +84,20 @@ function App() {
         <Route
           path="/episodelist"
         >
-          <h3>This is the episode list</h3>
+          <EpisodeList 
+            episodes={episodes}
+            selectEpisode={selectEpisode}
+            setSelectedEpisode={setSelectedEpisode}
+            url={url}
+            getEpisodes={getEpisodes}
+          />
+        </Route>
+        <Route
+          path="/episode"
+        >
+          <Episode 
+            selectedEpisode={selectedEpisode}
+          />
         </Route>
       </Switch>
     </div>
