@@ -29,7 +29,17 @@ const Nav = () => {
                     <Link
                         to="/episodelist"
                     >
-                        <li>See Episode List</li>
+                        <li>Episodes</li>
+                    </Link>
+                    <Link
+                        to="/login"
+                    >
+                        <li>Login/Create Account</li>
+                    </Link>
+                    <Link
+                        to="/shuffle"
+                    >
+                        <li>Episode Shuffle</li>
                     </Link>
                 </ul>
             </nav>
