@@ -5,76 +5,14 @@ const EpisodeList = (props) => {
 ////////////////////////
 // Constants
 ////////////////////////
-const [editMode, setEditMode] = useState(false)
 
-const emptyVideo = {
-    title: "",
-    url: "",
-    episodeType: "",
-    episodeDate: ""
-  }
-const [addFormData, setAddFormData] = useState(emptyVideo)
-const [editFormData, setEditFormData] = useState(emptyVideo)
 
 ////////////////////////
 // Functions
 ////////////////////////
-const handleAdd = () => {
-    setEditMode(true)
-}
-
-const handleSubmit = (video) => {
-    fetch(props.url + "/videos/", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(video)
-    })
-    .then(() => props.getEpisodes())
-}
-
-const handleUpdate = (video) => {
-    fetch(props.url + "/videos/" + props.selectedEpisode._id, {
-        method: "PUT",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(video)
-    })
-    .then(() => props.getEpisodes())
-}
-
-const handleCreate = (event) => {
-    event.preventDefault()
-    handleSubmit(addFormData)
-    setEditMode(false)
-    setAddFormData(emptyVideo)
-}
-
-const handleEdit = (event) => {
-    event.preventDefault()
-    handleUpdate(editFormData)
-    setEditFormData(emptyVideo)
-}
-
-const handleDelete = (id) => {
-    fetch(props.url + "/videos/" + id, {
-        method: "delete"
-    })
-    .then(() => {
-        props.getEpisodes()
-    })
-}
 
 
-const handleChange = (event) => {
-    setAddFormData({...addFormData, [event.target.name]: event.target.value})
-}
 
-const handleEditChange = (event) => {
-    setEditFormData({...editFormData, [event.target.name]: event.target.value})
-}
 
 ////////////////////////
 // Render
@@ -82,6 +20,8 @@ const handleEditChange = (event) => {
 const loaded = () => {
 
     const episodeTitles = props.episodes.data.map((item, index) => {
+        const isFavorite = props.favorites.includes(item._id)
+        const isViewed = props.episodesViewed.includes(item._id)
         return (
             <div 
                 style={{border: "1px solid black", width: "500px"}}
@@ -93,43 +33,21 @@ const loaded = () => {
                 >
                     <p>{item.title}</p>
                 </Link>
-                <button
-                    onClick={() => props.selectEpisode(item._id)}
-                >Update</button>
-                <button
-                    onClick={() => handleDelete(item._id)}
-                >Delete</button>
-                <form 
-                    style={{marginBottom: "20px"}}
-                    onSubmit={handleEdit}
-                    className={item._id === props.selectedEpisode._id ? "" : "hidden"}
-                >
-                    <input
-                        placeholder="Title"
-                        name="title"
-                        onChange={handleEditChange}
-                    />
-                    <input
-                        placeholder="Episode Type"
-                        name="episodeType"
-                        onChange={handleEditChange}
-                    />
-                    <input
-                        placeholder="URL"
-                        name="url"
-                        onChange={handleEditChange}
-                    />
-                    <input
-                        placeholder="Date Aired"
-                        name="episodeDate"
-                        onChange={handleEditChange}
-                    />
-                    <input
-                        type="submit"
-                        value="Submit"
-                    />
-                    <button>Cancel</button>
-                </form>
+                {props.user !== "" && <div>
+                    {isFavorite && <button
+                        onClick={() => props.handleFavorite("favorite", item._id, "delete")}
+                    >Un-Favorite</button>}
+                    {!isFavorite && <button
+                        onClick={() => props.handleFavorite("favorite", item._id, "add")}
+                    >Favorite</button>}
+                    {isViewed && <button
+                        onClick={() => props.handleFavorite("viewed", item._id, "delete")}
+                    >I Haven't Seen This Yet</button>}
+                    {!isViewed && <button
+                        onClick={() => props.handleFavorite("viewed", item._id, "add")}
+                    >I've Already Seen This Episode</button>}
+                </div>}
+ 
             </div>
         )
     })
@@ -151,41 +69,7 @@ const loading = () => {
     return (
         <>
             <h2>Episode List</h2>
-            <button 
-                style={{marginBottom: "20px"}}
-                onClick={() => handleAdd()}
-            >Add New Episode</button>
-            <form 
-                style={{marginBottom: "20px"}}
-                className={editMode ? "" : "hidden"}
-                onSubmit={handleCreate}
-            >
-                <input
-                    placeholder="Title"
-                    name="title"
-                    onChange={handleChange}
-                />
-                <input
-                    placeholder="Episode Type"
-                    name="episodeType"
-                    onChange={handleChange}
-                />
-                <input
-                    placeholder="URL"
-                    name="url"
-                    onChange={handleChange}
-                />
-                <input
-                    placeholder="Date Aired"
-                    name="episodeDate"
-                    onChange={handleChange}
-                />
-                <input
-                    type="submit"
-                    value="Submit"
-                />
-                <button>Cancel</button>
-            </form>
+            
             {props.episodes.data.length > 0 ? loaded() : loading()}
         </>
     )

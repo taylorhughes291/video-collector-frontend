@@ -1,7 +1,7 @@
 import React from "react"
 import {Link} from "react-router-dom"
 
-const Nav = () => {
+const Nav = (props) => {
     /////////////////////////////
     // Constants
     /////////////////////////////
@@ -31,11 +31,28 @@ const Nav = () => {
                     >
                         <li>Episodes</li>
                     </Link>
+                    {props.user === "" && 
+                    <>
+                        <Link
+                            to="/login"
+                        >
+                            <li>Login</li>
+                        </Link>
+                        <Link
+                            to="/create"
+                        >
+                            <li>Create Account</li>
+                        </Link>
+                    </>
+                    }
+                    {props.user !== "" &&
                     <Link
                         to="/login"
+                        onClick={props.handleLogout}
                     >
-                        <li>Login/Create Account</li>
+                        <li>Logout</li>
                     </Link>
+                    }
                     <Link
                         to="/shuffle"
                     >

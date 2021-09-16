@@ -5,6 +5,7 @@ import {useState, useEffect} from "react"
 import EpisodeList from "./pages/EpisodeList"
 import Episode from "./pages/Episode"
 import Login from "./pages/Login"
+import Create from "./pages/Create"
 
 function App(props) {
   /////////////////////////////
@@ -60,11 +61,16 @@ function App(props) {
       body: JSON.stringify(newUser)
     }).then((response) => response.json())
     .then((data) =>  {
-      console.log(data.status)
+      console.log(data)
       if(data.status === 200)
       {
-      setUser(data.data._id)
-      props.history.push('/episodelist')
+        window.localStorage.setItem("token", JSON.stringify(data.accessToken))
+        setUser(data.user)
+        setGState({
+          ...gState,
+          token: data.accessToken
+        })
+        props.history.push('/episodelist')
     
       } else if (data.status === 403) {
         alert('username already exists')
@@ -73,6 +79,12 @@ function App(props) {
     })
   };
 
+  const handleLogout = () => {
+    window.localStorage.clear()
+    setFavorites([])
+    setEpisodesViewed([])
+    setUser("")
+  }
 
   /////////////////////////////
   // Functions
@@ -110,6 +122,29 @@ function App(props) {
     })
   }
 
+  const handleFavorite = (favoriteOrViewed, episodeId, action) => {
+    let favoriteUrl = url + "/users/" + favoriteOrViewed + "/" + user
+    fetch(favoriteUrl, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `bearer ${gState.token}`
+      },
+      body: JSON.stringify({
+        episode: episodeId,
+        action: action
+      })
+    })
+    .then((response) => (response.json()))
+    .then((data) => {
+      if (favoriteOrViewed === "favorite") {
+        setFavorites(data.data.favorites)
+      } else if (favoriteOrViewed === "viewed") {
+        setEpisodesViewed(data.data.episodesViewed)
+      }
+    })
+  }
+
   /////////////////////////////
   // Render
   /////////////////////////////
@@ -126,7 +161,7 @@ function App(props) {
         token
       })
     } else {
-      props.history.push("/login")
+      handleLogout()
     }
   }, [])
 
@@ -161,7 +196,10 @@ function App(props) {
   return (
     <div className="App">
       <h1>Welcome to HuellVision</h1>
-      <Nav />
+      <Nav 
+        user={user}
+        handleLogout={handleLogout}
+      />
       <Switch>
         <Route 
           exact path="/"
@@ -178,6 +216,10 @@ function App(props) {
             setSelectedEpisode={setSelectedEpisode}
             url={url}
             getEpisodes={getEpisodes}
+            handleFavorite={handleFavorite}
+            favorites={favorites}
+            user={user}
+            episodesViewed={episodesViewed}
           />
         </Route>
         <Route
@@ -192,6 +234,13 @@ function App(props) {
         >
           <Login 
             getLogin={getLogin}
+          />
+        </Route>
+        <Route
+          path="/create"
+        >
+          <Create 
+            handleCreate={handleCreate}
           />
         </Route>
         <Route
