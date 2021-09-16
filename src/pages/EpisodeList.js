@@ -19,7 +19,7 @@ const EpisodeList = (props) => {
 ////////////////////////
 const loaded = () => {
 
-    const episodeTitles = props.episodes.data.map((item, index) => {
+    const episodeTitles = props.episodes.map((item, index) => {
         const isFavorite = props.favorites.includes(item._id)
         const isViewed = props.episodesViewed.includes(item._id)
         return (
@@ -70,7 +70,7 @@ const loading = () => {
         <>
             <h2>Episode List</h2>
             
-            {props.episodes.data.length > 0 ? loaded() : loading()}
+            {props.episodes.length > 0 ? loaded() : loading()}
         </>
     )
 }

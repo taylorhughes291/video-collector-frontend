@@ -11,10 +11,7 @@ function App(props) {
   /////////////////////////////
   // Constants
   /////////////////////////////
-  const [episodes, setEpisodes] = useState({
-    status: 0,
-    data: []
-  })
+  const [episodes, setEpisodes] = useState([])
   const [gState, setGState] = useState({
     token: ""
   })
@@ -29,6 +26,12 @@ function App(props) {
   })
   const [user, setUser] = useState("")
   const url = process.env.REACT_APP_BACKENDURL
+
+  const favoriteEpisodes = episodes.filter((item, index) => {
+    return (
+      favorites.includes(item._id)
+    )
+  })
 
   function getLogin(username, password) {
     fetch(url + '/users/login/' + username + '/' + password)
@@ -93,7 +96,7 @@ function App(props) {
     fetch(url + "/videos/")
     .then((response) => response.json())
     .then((data) => {
-      setEpisodes(data)
+      setEpisodes(data.data)
     })
   }
 
@@ -174,10 +177,10 @@ function App(props) {
   const loaded = () => {
     const homepageVideo = (
       <>
-        <h2>{episodes.data[0].title}</h2>
-        <h3>{episodes.data[0].episodeType}</h3>
+        <h2>{episodes[0].title}</h2>
+        <h3>{episodes[0].episodeType}</h3>
         <video
-          src={episodes.data[0].url}
+          src={episodes[0].url}
           controls
         />
       </>
@@ -204,7 +207,7 @@ function App(props) {
         <Route 
           exact path="/"
         >
-          {episodes.data.length > 0 ? loaded() : loading()}
+          {episodes.length > 0 ? loaded() : loading()}
         </Route>
         <Route
           path="/episodelist"
@@ -241,6 +244,22 @@ function App(props) {
         >
           <Create 
             handleCreate={handleCreate}
+          />
+        </Route>
+        <Route
+          path="/favorites"
+        >
+          <EpisodeList 
+            episodes={favoriteEpisodes}
+            selectEpisode={selectEpisode}
+            selectedEpisode={selectedEpisode}
+            setSelectedEpisode={setSelectedEpisode}
+            url={url}
+            getEpisodes={getEpisodes}
+            handleFavorite={handleFavorite}
+            favorites={favorites}
+            user={user}
+            episodesViewed={episodesViewed}
           />
         </Route>
         <Route

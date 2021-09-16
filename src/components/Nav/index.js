@@ -46,12 +46,19 @@ const Nav = (props) => {
                     </>
                     }
                     {props.user !== "" &&
-                    <Link
-                        to="/login"
-                        onClick={props.handleLogout}
-                    >
-                        <li>Logout</li>
-                    </Link>
+                    <>
+                        <Link
+                            to="/login"
+                            onClick={props.handleLogout}
+                        >
+                            <li>Logout</li>
+                        </Link>
+                        <Link
+                            to="/favorites"
+                        >
+                            <li>Favorites</li>
+                        </Link>
+                    </>
                     }
                     <Link
                         to="/shuffle"
