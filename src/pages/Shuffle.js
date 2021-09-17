@@ -77,6 +77,8 @@ const Shuffle = (props) => {
         setSelectedShows(allShows)
     }, [shows])
 
+    
+
     const loaded = () => {
         return (
             <>
