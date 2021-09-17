@@ -1,11 +1,12 @@
 import './App.css';
 import Nav from "./components/Nav"
 import {Switch, Route, withRouter} from "react-router-dom"
-import {useState, useEffect} from "react"
+import {useState, useEffect, useRef} from "react"
 import EpisodeList from "./pages/EpisodeList"
 import Episode from "./pages/Episode"
 import Login from "./pages/Login"
 import Create from "./pages/Create"
+import Shuffle from "./pages/Shuffle"
 
 function App(props) {
   /////////////////////////////
@@ -110,7 +111,7 @@ function App(props) {
   }
   
   const getDbData = () => {
-    const getUrl = url + "/users/" + user
+    const getUrl = url + "/users"
     fetch(getUrl, {
       method: "GET",
       headers: {
@@ -120,6 +121,7 @@ function App(props) {
     })
     .then((response) => (response.json()))
     .then((data) => {
+      setUser(data.data._id)
       setFavorites(data.data.favorites)
       setEpisodesViewed(data.data.episodesViewed)
     })
@@ -151,6 +153,8 @@ function App(props) {
   /////////////////////////////
   // Render
   /////////////////////////////
+
+
 
   useEffect(() => {
     getEpisodes()
@@ -265,8 +269,13 @@ function App(props) {
         <Route
           path="/shuffle"
         >
-          <Episode 
+          <Shuffle
+            episodes={episodes}
+            episodesViewed={episodesViewed}
             selectedEpisode={selectedEpisode}
+            setSelectedEpisode={setSelectedEpisode}
+            user={user}
+            getEpisodes={getEpisodes}
           />
         </Route>
       </Switch>
