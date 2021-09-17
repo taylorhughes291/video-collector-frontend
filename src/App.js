@@ -276,6 +276,7 @@ function App(props) {
             setSelectedEpisode={setSelectedEpisode}
             user={user}
             getEpisodes={getEpisodes}
+            handleFavorite={handleFavorite}
           />
         </Route>
       </Switch>

@@ -1,10 +1,15 @@
 import React, {useEffect, useState, useRef} from "react"
 import Episode from "./Episode"
+import useInterval from "react-useinterval"
 
 const Shuffle = (props) => {
 
     const [shows, setShows] = useState([])
     const [selectedShows, setSelectedShows] = useState([])
+    const [watchTimer, setWatchTimer] = useState({
+        timestamp: "",
+        viewed: false
+    })
 
     const selectEpisode = (showsArray) => {
         let availableEpisodes = props.episodes.filter((item, index) => {
@@ -20,7 +25,6 @@ const Shuffle = (props) => {
             })
         }
         if (availableEpisodes.length < 1) {
-            alert("There are no more remaining videos to select. Please select another category. In the meantime, we will shuffle all videos.")
             availableEpisodes = props.episodes
         }
 
@@ -31,8 +35,13 @@ const Shuffle = (props) => {
         })
 
         availableShows = [...new Set(availableShows)]
+        const episode = availableEpisodes[Math.floor(Math.random() * availableEpisodes.length)]
+        setWatchTimer({
+            viewed: false,
+            timestamp: Date.now()
+        })
         return {
-            episode: availableEpisodes[Math.floor(Math.random() * availableEpisodes.length)],
+            episode: episode,
             shows: availableShows
         }
         
@@ -70,14 +79,25 @@ const Shuffle = (props) => {
             props.setSelectedEpisode(shuffleData.episode)
             setShows(shuffleData.shows)
         }
-    }, [props.episodes, props.episodesViewed])
+    }, [props.episodes])
 
     useEffect(() => {
         const allShows = shows.slice(0)
         setSelectedShows(allShows)
     }, [shows])
 
-    
+    useInterval(() => {
+        if (props.user !== "") {
+            const now = Date.now()
+            if (!watchTimer.viewed && (now - watchTimer.timestamp) > 1000 * 60 * 3) {
+                setWatchTimer({
+                    ...watchTimer,
+                    viewed: true
+                })
+                props.handleFavorite("viewed", props.selectedEpisode._id, "add")
+            }
+        }
+    }, 1000*60)
 
     const loaded = () => {
         return (
@@ -98,6 +118,9 @@ const Shuffle = (props) => {
                 <Episode 
                     selectedEpisode={props.selectedEpisode}
                 />
+                <div>
+                    <button>Next Episode</button>
+                </div>
             </>
         )
     }
