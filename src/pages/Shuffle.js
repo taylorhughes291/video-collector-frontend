@@ -1,6 +1,7 @@
 import React, {useEffect, useState, useRef} from "react"
 import Episode from "./Episode"
 import useInterval from "react-useinterval"
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 
 const Shuffle = (props) => {
 
@@ -10,6 +11,7 @@ const Shuffle = (props) => {
         timestamp: "",
         viewed: false
     })
+    const [modal, setModal] = useState(false);
 
     const selectEpisode = (showsArray) => {
         let availableEpisodes = props.episodes.filter((item, index) => {
@@ -25,7 +27,12 @@ const Shuffle = (props) => {
             })
         }
         if (availableEpisodes.length < 1) {
-            availableEpisodes = props.episodes
+            if (selectedShows.length === 0) {
+                availableEpisodes = props.episodes
+            } else {
+                availableEpisodes = props.episodes
+                setModal(true)
+            }
         }
 
         let availableShows = props.episodes.map((item, index) => {
@@ -45,6 +52,40 @@ const Shuffle = (props) => {
             shows: availableShows
         }
         
+    }
+    
+
+    const RefreshModal = (props) => {
+        const {
+          buttonLabel,
+          className
+        } = props;
+      
+        
+      
+        const toggle = () => setModal(!modal);
+      
+        return (
+          <div>
+            <Modal isOpen={modal} toggle={toggle} className={className}>
+              <ModalHeader toggle={toggle}>Modal title</ModalHeader>
+              <ModalBody>
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+              </ModalBody>
+              <ModalFooter>
+                <Button color="primary" onClick={toggle}>Do Something</Button>{' '}
+                <Button color="secondary" onClick={toggle}>Cancel</Button>
+              </ModalFooter>
+            </Modal>
+          </div>
+        );
+      }
+
+    const handleNext = (episode = false) => {
+        if (episode !== false) {
+            props.handleFavorite("viewed", episode, "add")
+        }
+        props.setSelectedEpisode(selectEpisode(selectedShows).episode)
     }
 
     const handleCheck = (show) => {
@@ -119,8 +160,14 @@ const Shuffle = (props) => {
                     selectedEpisode={props.selectedEpisode}
                 />
                 <div>
-                    <button>Next Episode</button>
+                    <button
+                        onClick={() => handleNext()}
+                    >Next Episode</button>
+                    <button
+                        onClick={() => handleNext(props.selectedEpisode._id)}
+                    >Skip and Don't Replay</button>
                 </div>
+                {modal && <RefreshModal />}
             </>
         )
     }
