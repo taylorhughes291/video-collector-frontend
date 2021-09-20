@@ -1,11 +1,10 @@
 import React from "react"
-import {Link} from "react-router-dom"
+import {withRouter, Link} from "react-router-dom"
 
 const Nav = (props) => {
     /////////////////////////////
     // Constants
     /////////////////////////////
-
 
 
     /////////////////////////////
@@ -21,49 +20,73 @@ const Nav = (props) => {
         <>
             <nav>
                 <ul>
-                    <Link
-                        to="/episodelist"
+                    <div
+                        className={props.location.pathname === "/episodelist" ? "nav-item-cont selected" : "nav-item-cont"}
                     >
-                        <li>Episodes</li>
-                    </Link>
+                        <Link
+                            to="/episodelist"
+                        >
+                            <li>Episodes</li>
+                        </Link>
+                    </div>
                     {props.user === "" && 
                     <>
+                        <div
+                            className={props.location.pathname === "/login" ? "nav-item-cont selected" : "nav-item-cont"}
+                        >
                         <Link
                             to="/login"
                         >
                             <li>Login</li>
                         </Link>
+                        </div>
+                        <div
+                            className={props.location.pathname === "/create" ? "nav-item-cont selected" : "nav-item-cont"}
+                        >
                         <Link
                             to="/create"
                         >
                             <li>Create Account</li>
                         </Link>
+                        </div>
                     </>
                     }
                     {props.user !== "" &&
                     <>
+                        <div
+                            className={"nav-item-cont"}
+                        >
                         <Link
                             to="/login"
                             onClick={props.handleLogout}
                         >
                             <li>Logout</li>
                         </Link>
+                        </div>
+                        <div
+                            className={props.location.pathname === "/favorites" ? "nav-item-cont selected" : "nav-item-cont"}
+                        >
                         <Link
                             to="/favorites"
                         >
                             <li>Favorites</li>
                         </Link>
+                        </div>
                     </>
                     }
+                    <div
+                        className={props.location.pathname === "/shuffle" ? "nav-item-cont selected" : "nav-item-cont"}
+                    >
                     <Link
                         to="/shuffle"
                     >
                         <li>Episode Shuffle</li>
                     </Link>
+                    </div>
                 </ul>
             </nav>
         </>
     )
 }
 
-export default Nav
+export default withRouter(Nav)

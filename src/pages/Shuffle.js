@@ -143,18 +143,20 @@ const Shuffle = (props) => {
     const loaded = () => {
         return (
             <>
-                <h3>This is the Shuffle Page</h3>
-                <div>
-                    <h3>What shows do you want to watch?</h3>
-                    <button
-                        onClick={() => setSelectedShows([])}
-                    >De-Select All</button>
-                    <button
-                        onClick={() => setSelectedShows(shows.slice(0))}
-                    >Select All</button>
-                    <form>
-                        <ShowFender />
-                    </form>
+                <div id="showFilter">
+                    {/* This is where you're workign now */}
+                    <button>Filter Shows</button>
+                    <div id="show-filter">
+                        <button
+                            onClick={() => setSelectedShows([])}
+                        >De-Select All</button>
+                        <button
+                            onClick={() => setSelectedShows(shows.slice(0))}
+                        >Select All</button>
+                        <form>
+                            <ShowFender />
+                        </form>
+                    </div>
                 </div>
                 <Episode 
                     selectedEpisode={props.selectedEpisode}

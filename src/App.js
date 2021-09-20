@@ -1,4 +1,4 @@
-import './App.css';
+import './App.sass';
 import Nav from "./components/Nav"
 import {Switch, Route, withRouter, Redirect} from "react-router-dom"
 import {useState, useEffect, useRef} from "react"
