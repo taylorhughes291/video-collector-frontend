@@ -22,11 +22,6 @@ const Nav = (props) => {
             <nav>
                 <ul>
                     <Link
-                        to="/"
-                    >
-                        <li>Homepage</li>
-                    </Link>
-                    <Link
                         to="/episodelist"
                     >
                         <li>Episodes</li>

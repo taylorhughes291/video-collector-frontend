@@ -166,6 +166,12 @@ const Shuffle = (props) => {
                     <button
                         onClick={() => handleNext(props.selectedEpisode._id)}
                     >Skip and Don't Replay</button>
+                    {(!props.favorites.includes(props.selectedEpisode._id) && props.user !== "") && <button
+                        onClick={() => props.handleFavorite("favorite", props.selectedEpisode._id, "add")}
+                    >Favorite Episode</button>}
+                    {(props.favorites.includes(props.selectedEpisode._id) && props.user !== "") && <button
+                        onClick={() => props.handleFavorite("favorite", props.selectedEpisode._id, "delete")}
+                    >Unfavorite Episode</button>}
                 </div>
                 {modal && <RefreshModal />}
             </>

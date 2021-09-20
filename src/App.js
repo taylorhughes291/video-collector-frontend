@@ -1,6 +1,6 @@
 import './App.css';
 import Nav from "./components/Nav"
-import {Switch, Route, withRouter} from "react-router-dom"
+import {Switch, Route, withRouter, Redirect} from "react-router-dom"
 import {useState, useEffect, useRef} from "react"
 import EpisodeList from "./pages/EpisodeList"
 import Episode from "./pages/Episode"
@@ -102,7 +102,7 @@ function App(props) {
   }
 
   const selectEpisode = (id) => {
-    const episodeData = episodes.data.find((item, index) => {
+    const episodeData = episodes.find((item, index) => {
       return (
         item._id === id
       )
@@ -121,9 +121,15 @@ function App(props) {
     })
     .then((response) => (response.json()))
     .then((data) => {
-      setUser(data.data._id)
-      setFavorites(data.data.favorites)
-      setEpisodesViewed(data.data.episodesViewed)
+      if (data.status === 400) {
+        setUser("")
+        setGState("")
+        window.localStorage.clear()
+      } else {
+        setUser(data.data._id)
+        setFavorites(data.data.favorites)
+        setEpisodesViewed(data.data.episodesViewed)
+      }
     })
   }
 
@@ -210,7 +216,9 @@ function App(props) {
       <Switch>
         <Route 
           exact path="/"
+          key="no-path"
         >
+          <Redirect to="/shuffle" />
           {episodes.length > 0 ? loaded() : loading()}
         </Route>
         <Route
@@ -277,6 +285,7 @@ function App(props) {
             user={user}
             getEpisodes={getEpisodes}
             handleFavorite={handleFavorite}
+            favorites={favorites}
           />
         </Route>
       </Switch>
