@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 import {useState} from 'react'
 
@@ -12,8 +12,6 @@ const Login = (props) => {
 
   }
     const handleChange = (event) => {
-        console.log('handleChange - value', event.target.value)
-        console.log('handleChange - name', event.target.name)
         const name = event.target.name 
         setUser({
           ...user,
