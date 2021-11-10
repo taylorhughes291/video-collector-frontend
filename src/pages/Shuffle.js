@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useRef} from "react"
+import React, {useEffect, useState} from "react"
 import Episode from "./Episode"
 import useInterval from "react-useinterval"
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
@@ -142,26 +142,23 @@ const Shuffle = (props) => {
 
     const loaded = () => {
         return (
-            <>
+            <div id="shuffle-page">
                 <div id="showFilter">
-                    {/* This is where you're workign now */}
-                    <button>Filter Shows</button>
                     <div id="show-filter">
-                        <button
-                            onClick={() => setSelectedShows([])}
-                        >De-Select All</button>
-                        <button
-                            onClick={() => setSelectedShows(shows.slice(0))}
-                        >Select All</button>
+                        <div class="button-cont">
+                            <button
+                                onClick={() => setSelectedShows([])}
+                            >De-Select All</button>
+                            <button
+                                onClick={() => setSelectedShows(shows.slice(0))}
+                            >Select All</button>
+                        </div>
                         <form>
                             <ShowFender />
                         </form>
                     </div>
                 </div>
-                <Episode 
-                    selectedEpisode={props.selectedEpisode}
-                />
-                <div>
+                <div class="button-cont">
                     <button
                         onClick={() => handleNext()}
                     >Next Episode</button>
@@ -175,8 +172,11 @@ const Shuffle = (props) => {
                         onClick={() => props.handleFavorite("favorite", props.selectedEpisode._id, "delete")}
                     >Unfavorite Episode</button>}
                 </div>
+                <Episode 
+                    selectedEpisode={props.selectedEpisode}
+                />
                 {modal && <RefreshModal />}
-            </>
+            </div>
         )
     }
 

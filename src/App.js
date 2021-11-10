@@ -1,7 +1,7 @@
 import './App.sass';
 import Nav from "./components/Nav"
 import {Switch, Route, withRouter, Redirect} from "react-router-dom"
-import {useState, useEffect, useRef} from "react"
+import {useState, useEffect} from "react"
 import EpisodeList from "./pages/EpisodeList"
 import Episode from "./pages/Episode"
 import Login from "./pages/Login"
@@ -46,7 +46,7 @@ function App(props) {
           ...gState,
           token: data.accessToken
         })
-        props.history.push('/home')
+        props.history.push('/shuffle')
       } else if (data.status === 409) {
         alert('username does not exist')
         props.history.push('/create')
