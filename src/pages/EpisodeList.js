@@ -1,4 +1,4 @@
-import React, {useState} from "react"
+import React from "react"
 import {Link} from "react-router-dom"
 
 const EpisodeList = (props) => {
@@ -28,8 +28,7 @@ const loaded = () => {
                 key={index}
             >
                 <Link
-                    to="/episode"
-                    onClick={() => props.selectEpisode(item._id)}
+                    to={"/episode/" + item._id}
                 >
                     <p>{item.title}</p>
                 </Link>

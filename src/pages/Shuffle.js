@@ -85,7 +85,7 @@ const Shuffle = (props) => {
         if (episode !== false) {
             props.handleFavorite("viewed", episode, "add")
         }
-        props.setSelectedEpisode(selectEpisode(selectedShows).episode)
+        props.setSelectedEpisode(selectEpisode(selectedShows).episode._id)
     }
 
     const handleCheck = (show) => {
@@ -94,7 +94,7 @@ const Shuffle = (props) => {
         index >= 0 ? newArray.splice(index, 1) : newArray.push(show)
         setSelectedShows(newArray)
         const shuffleData = selectEpisode(newArray)
-        props.setSelectedEpisode(shuffleData.episode)
+        props.setSelectedEpisode(shuffleData.episode._id)
     }
     
     const ShowFender = () => {
@@ -115,9 +115,11 @@ const Shuffle = (props) => {
     }
     
     useEffect(() => {
-        if (props.episodes.length > 1) {
+        console.log("what the fuck");
+        if (props.episodes.length > 0) {
             const shuffleData = selectEpisode(shows)
-            props.setSelectedEpisode(shuffleData.episode)
+            console.log(shuffleData);
+            props.setSelectedEpisode(shuffleData.episode._id)
             setShows(shuffleData.shows)
         }
     }, [props.episodes])
@@ -174,6 +176,7 @@ const Shuffle = (props) => {
                 </div>
                 <Episode 
                     selectedEpisode={props.selectedEpisode}
+                    episodes={props.episodes}
                 />
                 {modal && <RefreshModal />}
             </div>
@@ -186,7 +189,7 @@ const Shuffle = (props) => {
         )
     }
 
-    return props.selectedEpisode.title === "" ? loading() : loaded()
+    return props.selectedEpisode === "" ? loading() : loaded()
 
 }
 
