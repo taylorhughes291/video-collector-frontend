@@ -1,16 +1,38 @@
 import React from "react"
+import {withRouter} from "react-router-dom"
 
 const Episode = (props) => {
-    return (
-        <>
-            <h2>{props.selectedEpisode.title}</h2>
-            <h3>{props.selectedEpisode.episodeType}</h3>
-            <video 
-                src={props.selectedEpisode.url}
-                controls
-            />
-        </>
-    )
+
+    const selectedEpisode = props.match.path === "/shuffle" ? props.selectedEpisode : props.match.params.id
+    const episodeData = props.episodes.find((item, index) => {
+        return (
+          item._id === selectedEpisode
+        )
+      })
+
+      console.log(props.match.path);
+
+    const loaded = () => {
+        return (
+            <>
+                <h2>{episodeData.title}</h2>
+                <h3>{episodeData.episodeType}</h3>
+                <h3>{episodeData.episodeDate}</h3>
+                <video 
+                    src={episodeData.url}
+                    controls
+                />
+            </>
+        )
+    }
+
+    const loading = () => {
+        return (
+            <h2>Loading...</h2>
+        )
+    }
+
+    return props.episodes.length > 0 ? loaded() : loading()
 }
 
-export default Episode
+export default withRouter(Episode)

@@ -18,13 +18,7 @@ function App(props) {
   })
   const [favorites, setFavorites] = useState([])
   const [episodesViewed, setEpisodesViewed] = useState([])
-  const [selectedEpisode, setSelectedEpisode] = useState({
-    _id: "",
-    title: "",
-    url: "",
-    episodeType: "",
-    episodeDate: ""
-  })
+  const [selectedEpisode, setSelectedEpisode] = useState("")
   const [user, setUser] = useState("")
   const url = process.env.REACT_APP_BACKENDURL
 
@@ -99,15 +93,6 @@ function App(props) {
     .then((data) => {
       setEpisodes(data.data)
     })
-  }
-
-  const selectEpisode = (id) => {
-    const episodeData = episodes.find((item, index) => {
-      return (
-        item._id === id
-      )
-    })
-    setSelectedEpisode(episodeData)
   }
   
   const getDbData = () => {
@@ -226,7 +211,6 @@ function App(props) {
         >
           <EpisodeList 
             episodes={episodes}
-            selectEpisode={selectEpisode}
             selectedEpisode={selectedEpisode}
             setSelectedEpisode={setSelectedEpisode}
             url={url}
@@ -238,10 +222,11 @@ function App(props) {
           />
         </Route>
         <Route
-          path="/episode"
+          path="/episode/:id"
         >
           <Episode 
             selectedEpisode={selectedEpisode}
+            episodes={episodes}
           />
         </Route>
         <Route
@@ -263,7 +248,6 @@ function App(props) {
         >
           <EpisodeList 
             episodes={favoriteEpisodes}
-            selectEpisode={selectEpisode}
             selectedEpisode={selectedEpisode}
             setSelectedEpisode={setSelectedEpisode}
             url={url}
