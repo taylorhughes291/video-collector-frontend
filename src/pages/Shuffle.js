@@ -115,10 +115,8 @@ const Shuffle = (props) => {
     }
     
     useEffect(() => {
-        console.log("what the fuck");
         if (props.episodes.length > 0) {
             const shuffleData = selectEpisode(shows)
-            console.log(shuffleData);
             props.setSelectedEpisode(shuffleData.episode._id)
             setShows(shuffleData.shows)
         }
@@ -165,13 +163,13 @@ const Shuffle = (props) => {
                         onClick={() => handleNext()}
                     >Next Episode</button>
                     <button
-                        onClick={() => handleNext(props.selectedEpisode._id)}
+                        onClick={() => handleNext(props.selectedEpisode)}
                     >Skip and Don't Replay</button>
-                    {(!props.favorites.includes(props.selectedEpisode._id) && props.user !== "") && <button
-                        onClick={() => props.handleFavorite("favorite", props.selectedEpisode._id, "add")}
+                    {(!props.favorites.includes(props.selectedEpisode) && props.user !== "") && <button
+                        onClick={() => props.handleFavorite("favorite", props.selectedEpisode, "add")}
                     >Favorite Episode</button>}
-                    {(props.favorites.includes(props.selectedEpisode._id) && props.user !== "") && <button
-                        onClick={() => props.handleFavorite("favorite", props.selectedEpisode._id, "delete")}
+                    {(props.favorites.includes(props.selectedEpisode) && props.user !== "") && <button
+                        onClick={() => props.handleFavorite("favorite", props.selectedEpisode, "delete")}
                     >Unfavorite Episode</button>}
                 </div>
                 <Episode 

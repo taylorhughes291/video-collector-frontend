@@ -10,7 +10,6 @@ const Episode = (props) => {
         )
       })
 
-      console.log(props.match.path);
 
     const loaded = () => {
         return (

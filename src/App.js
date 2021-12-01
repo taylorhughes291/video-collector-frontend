@@ -59,7 +59,6 @@ function App(props) {
       body: JSON.stringify(newUser)
     }).then((response) => response.json())
     .then((data) =>  {
-      console.log(data)
       if(data.status === 200)
       {
         window.localStorage.setItem("token", JSON.stringify(data.accessToken))
