@@ -192,7 +192,6 @@ function App(props) {
 
   return (
     <div className="App">
-      <h1>Welcome to HuellVision</h1>
       <Nav 
         user={user}
         handleLogout={handleLogout}

@@ -1,18 +1,19 @@
 @import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400;700&display=swap')
 
 $notebook: 'Source Code Pro', monospace
-$blue: #5D94EA
-$yellow: #EDBC4D
-$charcoal: #233D4D
-$rose: #F56476
-$blush: #FDECEF
+$blue: #7DBAF1
+$yellow: #EFF5A3
+$charcoal: #2D3142
+$rose: #E84855
+$green: #41521F
 
 .selected
   background-color: $rose
+  font-weight: bold
 
 html
-  background-color: $blush
-  color: $charcoal
+  background-color: $charcoal
+  color: $blue
 
   body
     font-family: $notebook
@@ -21,6 +22,24 @@ html
     margin: auto
 
 nav
+  display: flex
+  flex-direction: row
+  justify-content: space-between
+  align-items: center
+  padding: 20px 0 0
+  
+  img#huell
+    width: 100px
+    transform: rotate(20deg)
+    animation-name: huell-rotate
+    animation-duration: 3s
+
+  img#glasses
+    width: 100px
+    transform: rotate(20deg)
+    position: relative
+
+
   ul
     display: flex
     width: 100%
@@ -29,15 +48,15 @@ nav
     padding: 0
     li
       list-style-type: none
-      border: 1px solid $charcoal
-      width: 200px
+      border: 1px solid $yellow
+      width: 150px
       height: 40px
       display: flex
       align-items: center
       justify-content: center
     a
       text-decoration: none
-      color: $charcoal
+      color: $blue
 
 div#shuffle-page
   div.button-cont
@@ -50,3 +69,10 @@ div#shuffle-page
     div
       width: 260px
       display: flex
+
+// Key Frames
+@keyframes huell-rotate
+  0%
+    transform: rotate(20deg)
+  100%
+    transform: rotate(380deg)

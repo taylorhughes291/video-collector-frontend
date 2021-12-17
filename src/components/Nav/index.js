@@ -1,5 +1,7 @@
 import React from "react"
 import {withRouter, Link} from "react-router-dom"
+import huell from "../../assets/huell.png"
+import glasses from "../../assets/glasses.png"
 
 const Nav = (props) => {
     /////////////////////////////
@@ -19,6 +21,11 @@ const Nav = (props) => {
     return (
         <>
             <nav>
+                <div id="logo-cont">
+                    <img id="huell" src={huell} alt="huell's big ol smiling face"/>
+                    <img id="glasses" src={glasses} alt = "thug life sunglasses"/>
+                    <h1>Huell/Vision</h1>
+                </div>
                 <ul>
                     <div
                         className={props.location.pathname === "/episodelist" ? "nav-item-cont selected" : "nav-item-cont"}
@@ -80,7 +87,7 @@ const Nav = (props) => {
                     <Link
                         to="/shuffle"
                     >
-                        <li>Episode Shuffle</li>
+                        <li>Shuffle</li>
                     </Link>
                     </div>
                 </ul>
