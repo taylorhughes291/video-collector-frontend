@@ -2,8 +2,11 @@ import React, {useEffect, useState} from "react"
 import Episode from "./Episode"
 import useInterval from "react-useinterval"
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import ford from "../assets/1993-ford.png"
 
 const Shuffle = (props) => {
+
+//  Constants
 
     const [shows, setShows] = useState([])
     const [selectedShows, setSelectedShows] = useState([])
@@ -12,6 +15,9 @@ const Shuffle = (props) => {
         viewed: false
     })
     const [modal, setModal] = useState(false);
+    const [filter, setFilter] = useState(false)
+
+//  Functions
 
     const selectEpisode = (showsArray) => {
         let availableEpisodes = props.episodes.filter((item, index) => {
@@ -83,6 +89,7 @@ const Shuffle = (props) => {
 
     const handleNext = (episode = false) => {
         if (episode !== false) {
+            console.log("Error is occuring here")
             props.handleFavorite("viewed", episode, "add")
         }
         props.setSelectedEpisode(selectEpisode(selectedShows).episode._id)
@@ -113,6 +120,16 @@ const Shuffle = (props) => {
         })
         return showsRender
     }
+
+    const showFilter = () => {
+        if (filter) {
+            setFilter(false)
+        } else {
+            setFilter(true)
+        }
+    }
+
+// Render 
     
     useEffect(() => {
         if (props.episodes.length > 0) {
@@ -143,9 +160,36 @@ const Shuffle = (props) => {
     const loaded = () => {
         return (
             <div id="shuffle-page">
-                <div id="showFilter">
-                    <div id="show-filter">
-                        <div class="button-cont">
+                <img src = {ford} alt="Huell's classic Ford Explorer" />
+                <div id="sub-option-cont">
+                    <div 
+                        className="sub-option"
+                        // onClick={() => showFilter()}
+                    >
+                        Filter
+                    </div>
+                    {(!props.favorites.includes(props.selectedEpisode) && props.user !== "") && <div 
+                        className="sub-option"
+                        onClick={() => props.handleFavorite("favorite", props.selectedEpisode, "add")}
+                    >
+                        Favorite
+                    </div>}
+                    {(props.favorites.includes(props.selectedEpisode) && props.user !== "") && <div 
+                        className="sub-option"
+                        onClick={() => props.handleFavorite("favorite", props.selectedEpisode, "delete")}
+                    >
+                        Unfavorite
+                    </div>}
+                    <div 
+                        className="sub-option"
+                        onClick={props.user === "" ? () => handleNext() : () => handleNext(props.selectedEpisode)}
+                    >
+                        Next
+                    </div>
+                </div>
+                <div id="showFilter" className={filter ? "" : "hidden"}>
+                    <div id="show-filter" >
+                        <div className="button-cont">
                             <button
                                 onClick={() => setSelectedShows([])}
                             >De-Select All</button>
@@ -158,7 +202,7 @@ const Shuffle = (props) => {
                         </form>
                     </div>
                 </div>
-                <div class="button-cont">
+                <div className="button-cont">
                     <button
                         onClick={() => handleNext()}
                     >Next Episode</button>

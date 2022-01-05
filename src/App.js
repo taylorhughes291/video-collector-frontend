@@ -34,6 +34,7 @@ function App(props) {
     .then((data) => {
       if (data.status === 200)
       {
+        console.log(data.accessToken);
         window.localStorage.setItem("token", JSON.stringify(data.accessToken))
         setUser(data.user)
         setGState({
