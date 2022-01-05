@@ -202,20 +202,6 @@ const Shuffle = (props) => {
                         </form>
                     </div>
                 </div>
-                <div className="button-cont">
-                    <button
-                        onClick={() => handleNext()}
-                    >Next Episode</button>
-                    <button
-                        onClick={() => handleNext(props.selectedEpisode)}
-                    >Skip and Don't Replay</button>
-                    {(!props.favorites.includes(props.selectedEpisode) && props.user !== "") && <button
-                        onClick={() => props.handleFavorite("favorite", props.selectedEpisode, "add")}
-                    >Favorite Episode</button>}
-                    {(props.favorites.includes(props.selectedEpisode) && props.user !== "") && <button
-                        onClick={() => props.handleFavorite("favorite", props.selectedEpisode, "delete")}
-                    >Unfavorite Episode</button>}
-                </div>
                 <Episode 
                     selectedEpisode={props.selectedEpisode}
                     episodes={props.episodes}
