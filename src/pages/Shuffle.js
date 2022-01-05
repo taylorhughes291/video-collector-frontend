@@ -164,7 +164,7 @@ const Shuffle = (props) => {
                 <div id="sub-option-cont">
                     <div 
                         className="sub-option"
-                        // onClick={() => showFilter()}
+                        onClick={() => showFilter()}
                     >
                         Filter
                     </div>
