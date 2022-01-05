@@ -27,17 +27,24 @@ nav
   justify-content: space-between
   align-items: center
   padding: 20px 0 0
-  
-  img#huell
-    width: 100px
-    transform: rotate(20deg)
-    animation-name: huell-rotate
-    animation-duration: 3s
 
-  img#glasses
-    width: 100px
-    transform: rotate(20deg)
+  #logo-cont
     position: relative
+  
+    img#huell
+      width: 100px
+      transform: rotate(20deg)
+      animation-name: huell-rotate
+      animation-duration: 3s
+
+    img#glasses
+      width: 100px
+      transform: rotate(15deg)
+      position: absolute
+      top: 54px
+      right: 40px
+      animation-name: glasses-drop
+      animation-duration: 3s
 
 
   ul
@@ -76,3 +83,11 @@ div#shuffle-page
     transform: rotate(20deg)
   100%
     transform: rotate(380deg)
+
+@keyframes glasses-drop
+  0%
+    top: -70px
+  30%
+    top: -70px
+  100%
+    top: 54px
